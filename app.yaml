@@ -1,0 +1,26 @@
+application: sidechats
+version: 1
+threadsafe: true
+api_version: 1
+runtime: python27
+
+skip_files:
+- .*\.swp$
+- .*\.swc.cache$
+- .*\.swf.cache$
+- .*\.pyc$
+- .*\.pyo$
+- .*flexsrc/(.*)/.*\.as$
+- .*\.hg/.*
+- .*\.svn/.*
+
+builtins:
+# - datastore_admin: on
+- admin_redirect: on
+- remote_api: on
+- appstats: on
+
+handlers:
+- url: /.*
+  script: gaemain.application
+
