@@ -4,8 +4,13 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class MainHandler(the_webapp.RequestHandler):
     def get(self, branch):
-        url = "itms-services:///?action=download-manifest&url=https://s3-us-west-1.amazonaws.com/polymath-beta/Sidechat_%s.plist"
-        self.redirect(url % branch)
+        version = str(self.request.get("version"))
+        if version:
+            url = "itms-services:///?action=download-manifest&url=https://s3-us-west-1.amazonaws.com/polymath-beta/Sidechat_%s_%s.plist"
+            self.redirect(url % (branch, version))
+        else:
+            url = "itms-services:///?action=download-manifest&url=https://s3-us-west-1.amazonaws.com/polymath-beta/Sidechat_%s.plist"
+            self.redirect(url % branch)
 
 
 handlers = [('/builds/(.*)/', MainHandler),
