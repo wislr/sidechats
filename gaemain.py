@@ -1,4 +1,5 @@
 import webapp2 as the_webapp
+import json, filelinks, random
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 
@@ -13,8 +14,16 @@ class MainHandler(the_webapp.RequestHandler):
             self.redirect(url % branch)
 
 
+class CodingTestHandler(the_webapp.RequestHandler):
+    def get(self):
+        sample_files = random.sample(filelinks.challenge_files, random.randrange(40, 60))
+        self.response.headers["Content-Type"] = "application/json"
+        self.response.out.write(json.dumps(sample_files))
+
+
 handlers = [('/builds/(.*)/', MainHandler),
-            ('/builds/(.*)', MainHandler)]
+            ('/builds/(.*)', MainHandler),
+            ('/codingtest/files/', CodingTestHandler)]
 application = the_webapp.WSGIApplication(handlers, debug=True)
 
 
